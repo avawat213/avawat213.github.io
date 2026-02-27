@@ -1,12 +1,10 @@
 
-
-
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ava Watson | GitHub Pages</title>
+  <title>Ava Watson | AI 109</title>
   <style>
     :root {
       --bg-a: #ffd9ec;
@@ -19,9 +17,7 @@
       --accent-2: #ff2f92;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -32,47 +28,34 @@
         radial-gradient(circle at 12% 20%, rgba(255, 255, 255, 0.75), transparent 40%),
         radial-gradient(circle at 85% 18%, rgba(255, 255, 255, 0.5), transparent 28%),
         linear-gradient(140deg, var(--bg-a), var(--bg-b) 45%, var(--bg-c));
-      display: grid;
-      place-items: center;
       padding: 24px;
+    }
+
+    nav {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: var(--text);
     }
 
     .card {
       width: min(760px, 100%);
+      margin: 20px auto;
       padding: 40px;
       border-radius: 24px;
       background: var(--card);
       backdrop-filter: blur(6px);
       border: 1px solid rgba(255, 255, 255, 0.6);
       box-shadow: 0 18px 45px rgba(123, 27, 83, 0.2);
-      position: relative;
-      overflow: hidden;
     }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: -120px auto auto -120px;
-      width: 260px;
-      height: 260px;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(255, 92, 168, 0.35), rgba(255, 92, 168, 0));
-      pointer-events: none;
-    }
-
-    h1 {
-      margin: 0 0 12px;
-      font-size: clamp(2rem, 6vw, 3rem);
-      line-height: 1.06;
-      letter-spacing: 0.02em;
-    }
-
-    p {
-      margin: 0;
-      color: var(--muted);
-      font-size: clamp(1.02rem, 2.8vw, 1.18rem);
-      line-height: 1.6;
-      max-width: 62ch;
+    h1, h2 {
+      margin-top: 0;
     }
 
     .tag {
@@ -96,13 +79,42 @@
   </style>
 </head>
 <body>
-  <main class="card">
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+  </nav>
+
+  <!-- Header Section -->
+  <section class="card">
     <h1>Ava Watson - AI 109</h1>
+    <span class="tag">Avawat213.github.io</span>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="card">
+    <h2>About Me</h2>
     <p>
       I am majoring in psychology because I am interested in understanding why people are the way that they are.
       I love to dance and swim. I love the wholesome moments in life.
     </p>
-    <span class="tag">Avawat213.github.io</span>
-  </main>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="card">
+    <h2>Projects</h2>
+
+    <h3>Project 1, Part 2: JavaScript Game</h3>
+    <p>Coming soon.</p>
+
+    <h3>GitHub Profile</h3>
+    <p>
+      <a href="https://github.com/Avawat213" target="_blank">
+        Visit my GitHub Profile
+      </a>
+    </p>
+  </section>
+
 </body>
 </html>
