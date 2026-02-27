@@ -1,0 +1,108 @@
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ava Watson | GitHub Pages</title>
+  <style>
+    :root {
+      --bg-a: #ffd9ec;
+      --bg-b: #ffc2e2;
+      --bg-c: #ff9fcd;
+      --card: rgba(255, 255, 255, 0.78);
+      --text: #5e1141;
+      --muted: #7a2f5d;
+      --accent: #ff5ca8;
+      --accent-2: #ff2f92;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 20%, rgba(255, 255, 255, 0.75), transparent 40%),
+        radial-gradient(circle at 85% 18%, rgba(255, 255, 255, 0.5), transparent 28%),
+        linear-gradient(140deg, var(--bg-a), var(--bg-b) 45%, var(--bg-c));
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(760px, 100%);
+      padding: 40px;
+      border-radius: 24px;
+      background: var(--card);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 18px 45px rgba(123, 27, 83, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -120px auto auto -120px;
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255, 92, 168, 0.35), rgba(255, 92, 168, 0));
+      pointer-events: none;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 6vw, 3rem);
+      line-height: 1.06;
+      letter-spacing: 0.02em;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1.02rem, 2.8vw, 1.18rem);
+      line-height: 1.6;
+      max-width: 62ch;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 20px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      box-shadow: 0 8px 18px rgba(255, 47, 146, 0.28);
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 28px;
+        border-radius: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Ava Watson - AI 109</h1>
+    <p>
+      I am majoring in psychology because I am interested in understanding why people are the way that they are.
+      I love to dance and swim. I love the wholesome moments in life.
+    </p>
+    <span class="tag">Avawat213.github.io</span>
+  </main>
+</body>
+</html>
