@@ -106,6 +106,18 @@
       z-index: 0;
     }
 
+    .sparkle {
+      animation: sparkle 2.5s infinite;
+      transform-origin: center;
+      opacity: 0.7;
+    }
+
+    @keyframes sparkle {
+      0% { transform: scale(0.8); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(0.8); opacity: 0.5; }
+    }
+
     @media (max-width: 640px) {
       .card {
         padding: 28px;
@@ -273,6 +285,26 @@
       <ellipse cx="280" cy="895" rx="6" ry="9" fill="#D4AF37" opacity="0.6" transform="rotate(330 280 895)"/>
       <!-- Inner petals -->
       <circle cx="280" cy="900" r="4" fill="#D4AF37" opacity="0.8"/>
+    </g>
+
+    <!-- Extra Gold Flower Cluster -->
+    <g id="flower7">
+      <circle cx="210" cy="180" r="4" fill="#FFD700" opacity="0.7" />
+      <circle cx="216" cy="188" r="4" fill="#FFD700" opacity="0.7" />
+      <circle cx="204" cy="188" r="4" fill="#FFD700" opacity="0.7" />
+      <circle cx="210" cy="196" r="4" fill="#FFD700" opacity="0.7" />
+      <circle cx="210" cy="184" r="2.5" fill="#D4AF37" opacity="0.9" />
+    </g>
+
+    <!-- Sparkle stars -->
+    <g class="sparkle">
+      <polygon points="980,120 985,134 1000,138 986,142 982,156 976,142 962,138 977,134" fill="#FFD700" opacity="0.8" />
+    </g>
+    <g class="sparkle" style="animation-delay: 0.8s;">
+      <polygon points="150,320 155,336 170,340 156,344 152,360 146,344 132,340 147,336" fill="#FFD700" opacity="0.8" />
+    </g>
+    <g class="sparkle" style="animation-delay: 1.4s;">
+      <polygon points="540,480 545,498 560,502 546,506 540,524 534,506 520,502 535,498" fill="#FFD700" opacity="0.8" />
     </g>
   </svg>
 
