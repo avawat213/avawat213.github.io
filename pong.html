@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pong Game | Ava Watson</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-a: #ffd9ec;
+      --bg-b: #ffc2e2;
+      --bg-c: #ff9fcd;
+      --card: rgba(255, 255, 255, 0.78);
+      --text: #5e1141;
+      --muted: #7a2f5d;
+      --accent: #ff5ca8;
+      --accent-2: #ff2f92;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Inter', "Avenir Next", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 20%, rgba(255, 255, 255, 0.75), transparent 40%),
+        radial-gradient(circle at 85% 18%, rgba(255, 255, 255, 0.5), transparent 28%),
+        linear-gradient(140deg, var(--bg-a), var(--bg-b) 45%, var(--bg-c));
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      font-weight: 600;
+      z-index: 100;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: var(--text);
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin-top: 60px;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--text);
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+    }
+
+    .game-wrapper {
+      width: 100%;
+      background: var(--card);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 18px 45px rgba(123, 27, 83, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #pongCanvas {
+      background: linear-gradient(135deg, rgba(255, 92, 168, 0.1), rgba(255, 47, 146, 0.05));
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .controls {
+      margin-top: 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .score {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .instructions {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 12px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(255, 47, 146, 0.28);
+      transition: transform 0.3s;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .game-wrapper {
+        padding: 20px;
+      }
+
+      nav {
+        font-size: 0.9rem;
+      }
+
+      nav a {
+        margin: 0 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html#about">About</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="pong.html">Pong Game</a>
+  </nav>
+
+  <div class="container">
+    <h1>🎮 Pong Game</h1>
+
+    <div class="game-wrapper">
+      <canvas id="pongCanvas" width="800" height="400"></canvas>
+
+      <div class="score">
+        <div>Player: <span id="playerScore">0</span> | Computer: <span id="computerScore">0</span></div>
+      </div>
+
+      <div class="controls">
+        Use <strong>W</strong> and <strong>S</strong> keys to move your paddle up and down
+      </div>
+
+      <button class="button" id="resetBtn">Reset Game</button>
+
+      <div class="instructions">
+        <p><strong>How to Play:</strong> Move your paddle to bounce the ball and score points. First to 5 points wins!</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('pongCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Game objects
+    const paddleWidth = 10;
+    const paddleHeight = 80;
+    const ballSize = 8;
+
+    let player = {
+      x: 10,
+      y: canvas.height / 2 - paddleHeight / 2,
+      width: paddleWidth,
+      height: paddleHeight,
+      dy: 0,
+      score: 0
+    };
+
+    let computer = {
+      x: canvas.width - paddleWidth - 10,
+      y: canvas.height / 2 - paddleHeight / 2,
+      width: paddleWidth,
+      height: paddleHeight,
+      dy: 0,
+      score: 0
+    };
+
+    let ball = {
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      dx: 4,
+      dy: 4,
+      size: ballSize
+    };
+
+    const keys = {};
+
+    // Event listeners
+    document.addEventListener('keydown', (e) => {
+      keys[e.key.toLowerCase()] = true;
+    });
+
+    document.addEventListener('keyup', (e) => {
+      keys[e.key.toLowerCase()] = false;
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      player.score = 0;
+      computer.score = 0;
+      resetBall();
+      updateScore();
+    });
+
+    function resetBall() {
+      ball.x = canvas.width / 2;
+      ball.y = canvas.height / 2;
+      ball.dx = (Math.random() > 0.5 ? 1 : -1) * 4;
+      ball.dy = (Math.random() - 0.5) * 6;
+    }
+
+    function update() {
+      // Player movement
+      if (keys['w'] && player.y > 0) {
+        player.y -= 6;
+      }
+      if (keys['s'] && player.y + player.height < canvas.height) {
+        player.y += 6;
+      }
+
+      // Computer AI
+      const computerCenter = computer.y + computer.height / 2;
+      if (computerCenter < ball.y - 35) {
+        computer.y += 5;
+      } else if (computerCenter > ball.y + 35) {
+        computer.y -= 5;
+      }
+
+      // Keep computer in bounds
+      if (computer.y < 0) computer.y = 0;
+      if (computer.y + computer.height > canvas.height) {
+        computer.y = canvas.height - computer.height;
+      }
+
+      // Ball movement
+      ball.x += ball.dx;
+      ball.y += ball.dy;
+
+      // Ball collision with top/bottom
+      if (ball.y - ball.size < 0 || ball.y + ball.size > canvas.height) {
+        ball.dy *= -1;
+      }
+
+      // Ball collision with paddles
+      if (
+        ball.x - ball.size < player.x + player.width &&
+        ball.y > player.y &&
+        ball.y < player.y + player.height
+      ) {
+        ball.dx = Math.abs(ball.dx);
+        ball.x = player.x + player.width + ball.size;
+        ball.dy += (ball.y - (player.y + player.height / 2)) * 0.05;
+      }
+
+      if (
+        ball.x + ball.size > computer.x &&
+        ball.y > computer.y &&
+        ball.y < computer.y + computer.height
+      ) {
+        ball.dx = -Math.abs(ball.dx);
+        ball.x = computer.x - ball.size;
+        ball.dy += (ball.y - (computer.y + computer.height / 2)) * 0.05;
+      }
+
+      // Scoring
+      if (ball.x < 0) {
+        computer.score++;
+        updateScore();
+        resetBall();
+      }
+      if (ball.x > canvas.width) {
+        player.score++;
+        updateScore();
+        resetBall();
+      }
+    }
+
+    function draw() {
+      // Clear canvas
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Center line
+      ctx.strokeStyle = 'rgba(255, 92, 168, 0.3)';
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+      ctx.moveTo(canvas.width / 2, 0);
+      ctx.lineTo(canvas.width / 2, canvas.height);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw paddles
+      ctx.fillStyle = '#ff5ca8';
+      ctx.fillRect(player.x, player.y, player.width, player.height);
+      ctx.fillRect(computer.x, computer.y, computer.width, computer.height);
+
+      // Draw ball
+      ctx.fillStyle = '#ff2f92';
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function updateScore() {
+      document.getElementById('playerScore').textContent = player.score;
+      document.getElementById('computerScore').textContent = computer.score;
+    }
+
+    function gameLoop() {
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Start the game
+    gameLoop();
+  </script>
+
+</body>
+</html>
