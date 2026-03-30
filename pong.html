@@ -153,6 +153,97 @@
       50% { stroke-dashoffset: 40; }
     }
 
+    .celebration-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(94, 17, 65, 0.7);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .celebration-modal.show {
+      display: flex;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .celebration-content {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.95), rgba(212, 175, 55, 0.95));
+      border-radius: 28px;
+      padding: 50px 40px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(212, 175, 55, 0.4);
+      border: 3px solid #FFD700;
+      animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0.3) rotateZ(-8deg);
+        opacity: 0;
+      }
+      70% {
+        transform: scale(1.1) rotateZ(2deg);
+      }
+      100% {
+        transform: scale(1) rotateZ(0deg);
+        opacity: 1;
+      }
+    }
+
+    .crown {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: bounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    #winnerText {
+      color: #5e1141;
+      font-size: 2.5rem;
+      margin: 20px 0 10px 0;
+      text-shadow: 2px 2px 4px rgba(212, 175, 55, 0.3);
+    }
+
+    .winner-message {
+      color: #5e1141;
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+
+    .celebration-button {
+      padding: 15px 35px;
+      background: linear-gradient(90deg, #ff5ca8, #ff2f92);
+      color: #fff;
+      border: 2px solid #FFD700;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 47, 146, 0.35);
+      transition: all 0.3s;
+    }
+
+    .celebration-button:hover {
+      transform: scale(1.08);
+      box-shadow: 0 12px 28px rgba(255, 47, 146, 0.5);
+    }
+
     .sparkle {
       animation: sparkle 2.5s infinite;
       transform-origin: center;
@@ -419,6 +510,16 @@
     </div>
   </div>
 
+  <!-- Celebration Modal -->
+  <div class="celebration-modal" id="celebrationModal">
+    <div class="celebration-content">
+      <div class="crown">👑</div>
+      <h2 id="winnerText">Congratulations!</h2>
+      <p id="winnerMessage" class="winner-message">You are the champion!</p>
+      <button class="celebration-button" id="playAgainBtn">Play Again</button>
+    </div>
+  </div>
+
   <script>
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
@@ -427,6 +528,7 @@
     const paddleWidth = 10;
     const paddleHeight = 80;
     const ballSize = 8;
+    let gameActive = true;
 
     let player = {
       x: 10,
@@ -466,11 +568,21 @@
     });
 
     document.getElementById('resetBtn').addEventListener('click', () => {
+      resetGame();
+    });
+
+    document.getElementById('playAgainBtn').addEventListener('click', () => {
+      resetGame();
+      document.getElementById('celebrationModal').classList.remove('show');
+    });
+
+    function resetGame() {
       player.score = 0;
       computer.score = 0;
+      gameActive = true;
       resetBall();
       updateScore();
-    });
+    }
 
     function resetBall() {
       ball.x = canvas.width / 2;
@@ -479,7 +591,27 @@
       ball.dy = (Math.random() - 0.5) * 6;
     }
 
+    function checkWinner() {
+      if (player.score >= 5) {
+        endGame('🎉 YOU WIN! 🎉', 'You defeated the computer!');
+        return true;
+      } else if (computer.score >= 5) {
+        endGame('Computer Wins!', 'Better luck next time!');
+        return true;
+      }
+      return false;
+    }
+
+    function endGame(title, message) {
+      gameActive = false;
+      document.getElementById('winnerText').textContent = title;
+      document.getElementById('winnerMessage').textContent = message;
+      document.getElementById('celebrationModal').classList.add('show');
+    }
+
     function update() {
+      if (!gameActive) return;
+
       // Player movement
       if (keys['w'] && player.y > 0) {
         player.y -= 6;
@@ -537,11 +669,13 @@
         computer.score++;
         updateScore();
         resetBall();
+        checkWinner();
       }
       if (ball.x > canvas.width) {
         player.score++;
         updateScore();
         resetBall();
+        checkWinner();
       }
     }
 
