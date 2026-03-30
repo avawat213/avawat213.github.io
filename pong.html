@@ -140,6 +140,19 @@
       box-shadow: 0 12px 24px rgba(255, 215, 0, 0.4);
     }
 
+    .vine {
+      filter: url(#glow);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 320 25;
+      animation: shimmer 7s infinite ease-in-out;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { stroke-dashoffset: 0; }
+      50% { stroke-dashoffset: 40; }
+    }
+
     .sparkle {
       animation: sparkle 2.5s infinite;
       transform-origin: center;
@@ -185,23 +198,38 @@
 
   <!-- Decorative Gold Vines Background -->
   <svg class="vine-background" viewBox="0 0 1200 1000" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FEE873" />
+        <stop offset="40%" stop-color="#FFD700" />
+        <stop offset="70%" stop-color="#E6B800" />
+        <stop offset="100%" stop-color="#D4AF37" />
+      </linearGradient>
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="2.4" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
     <!-- Left side vines -->
-    <path d="M 50 100 Q 80 150 60 200 Q 40 250 70 300 Q 90 350 60 400 Q 30 450 80 500" 
-          stroke="#FFD700" stroke-width="3" fill="none" opacity="0.4"/>
-    <path d="M 30 150 Q 65 180 50 230 Q 35 280 85 320 Q 110 360 80 410 Q 50 460 100 520" 
-          stroke="#D4AF37" stroke-width="2" fill="none" opacity="0.3"/>
+    <path class="vine" d="M 50 100 Q 80 150 60 200 Q 40 250 70 300 Q 90 350 60 400 Q 30 450 80 500" 
+          stroke="url(#goldGradient)" stroke-width="3" fill="none" opacity="0.8"/>
+    <path class="vine" d="M 30 150 Q 65 180 50 230 Q 35 280 85 320 Q 110 360 80 410 Q 50 460 100 520" 
+          stroke="url(#goldGradient)" stroke-width="2" fill="none" opacity="0.6"/>
     
     <!-- Right side vines -->
-    <path d="M 1150 120 Q 1120 170 1140 220 Q 1160 270 1130 320 Q 1110 370 1140 420 Q 1170 470 1120 530" 
-          stroke="#FFD700" stroke-width="3" fill="none" opacity="0.4"/>
-    <path d="M 1170 180 Q 1135 210 1150 260 Q 1165 310 1115 350 Q 1090 390 1120 440 Q 1150 490 1100 540" 
-          stroke="#D4AF37" stroke-width="2" fill="none" opacity="0.3"/>
+    <path class="vine" d="M 1150 120 Q 1120 170 1140 220 Q 1160 270 1130 320 Q 1110 370 1140 420 Q 1170 470 1120 530" 
+          stroke="url(#goldGradient)" stroke-width="3" fill="none" opacity="0.8"/>
+    <path class="vine" d="M 1170 180 Q 1135 210 1150 260 Q 1165 310 1115 350 Q 1090 390 1120 440 Q 1150 490 1100 540" 
+          stroke="url(#goldGradient)" stroke-width="2" fill="none" opacity="0.6"/>
     
     <!-- Bottom vines -->
-    <path d="M 100 900 Q 150 870 200 890 Q 250 910 300 880 Q 350 850 400 880 Q 450 910 500 880" 
-          stroke="#FFD700" stroke-width="2" fill="none" opacity="0.35"/>
-    <path d="M 700 920 Q 750 885 800 905 Q 850 925 900 895 Q 950 865 1000 895 Q 1050 925 1100 900" 
-          stroke="#D4AF37" stroke-width="2" fill="none" opacity="0.3"/>
+    <path class="vine" d="M 100 900 Q 150 870 200 890 Q 250 910 300 880 Q 350 850 400 880 Q 450 910 500 880" 
+          stroke="url(#goldGradient)" stroke-width="2" fill="none" opacity="0.7"/>
+    <path class="vine" d="M 700 920 Q 750 885 800 905 Q 850 925 900 895 Q 950 865 1000 895 Q 1050 925 1100 900" 
+          stroke="url(#goldGradient)" stroke-width="2" fill="none" opacity="0.7"/>
     
     <!-- Leaf details on vines -->
     <ellipse cx="60" cy="185" rx="6" ry="10" fill="#FFD700" opacity="0.5" transform="rotate(-30 60 185)"/>
